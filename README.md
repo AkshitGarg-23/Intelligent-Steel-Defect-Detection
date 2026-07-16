@@ -1,3 +1,14 @@
+## Live Demo
+
+Frontend:
+https://intelligent-steel-defect.streamlit.app/
+
+Backend API:
+https://intelligent-steel-defect-detection-2.onrender.com/
+
+API Docs:
+https://intelligent-steel-defect-detection-2.onrender.com/docs
+
 # Industrial Steel Surface Defect Detection & Quality Control System
 
 An end-to-end, production-grade Deep Learning system to identify and classify hot-rolled steel surface defects in real-time. Built with PyTorch, FastAPI, Streamlit, and TensorBoard, this project demonstrates professional computer vision, API design, model benchmarking, and visual explainability (Grad-CAM).
