@@ -1,0 +1,18 @@
+Classification Report - resnet18
+==================================================
+Total parameters: 11,179,590
+Trainable parameters: 8,396,806
+Avg Latency: 32.26 ms
+
+                 precision    recall  f1-score   support
+
+        crazing       1.00      1.00      1.00        45
+      inclusion       0.98      0.96      0.97        45
+        patches       1.00      1.00      1.00        45
+ pitted_surface       1.00      1.00      1.00        45
+rolled-in_scale       1.00      1.00      1.00        45
+      scratches       0.96      0.98      0.97        45
+
+       accuracy                           0.99       270
+      macro avg       0.99      0.99      0.99       270
+   weighted avg       0.99      0.99      0.99       270

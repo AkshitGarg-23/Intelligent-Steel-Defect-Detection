@@ -1,0 +1,18 @@
+Classification Report - custom_cnn
+==================================================
+Total parameters: 6,522,246
+Trainable parameters: 6,522,246
+Avg Latency: 9.29 ms
+
+                 precision    recall  f1-score   support
+
+        crazing       0.96      1.00      0.98        45
+      inclusion       0.72      0.93      0.82        45
+        patches       0.98      0.96      0.97        45
+ pitted_surface       0.88      0.78      0.82        45
+rolled-in_scale       1.00      1.00      1.00        45
+      scratches       0.89      0.71      0.79        45
+
+       accuracy                           0.90       270
+      macro avg       0.90      0.90      0.90       270
+   weighted avg       0.90      0.90      0.90       270

@@ -17,7 +17,16 @@ __pycache__/
 logs/
 
 # Outputs
-outputs/
+outputs/*
+!outputs/class_distribution.png
+!outputs/sample_images.png
+!outputs/pixel_distribution.png
+!outputs/model_comparison.txt
+!outputs/*_confusion_matrix.png
+!outputs/*_classification_report.txt
+!outputs/misclassified_samples_*.png
+/outputs/temp_uploaded.jpg
+/outputs/tensorboard/
 
 # Jupyter
 .ipynb_checkpoints/

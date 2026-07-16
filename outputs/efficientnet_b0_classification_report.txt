@@ -1,0 +1,18 @@
+Classification Report - efficientnet_b0
+==================================================
+Total parameters: 4,015,234
+Trainable parameters: 1,137,078
+Avg Latency: 35.18 ms
+
+                 precision    recall  f1-score   support
+
+        crazing       1.00      1.00      1.00        45
+      inclusion       0.98      0.98      0.98        45
+        patches       1.00      1.00      1.00        45
+ pitted_surface       1.00      1.00      1.00        45
+rolled-in_scale       1.00      1.00      1.00        45
+      scratches       0.98      0.98      0.98        45
+
+       accuracy                           0.99       270
+      macro avg       0.99      0.99      0.99       270
+   weighted avg       0.99      0.99      0.99       270

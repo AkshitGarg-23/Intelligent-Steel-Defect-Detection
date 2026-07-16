@@ -21,6 +21,9 @@ from models.efficientnet_model import get_efficientnet_model
 from utils.dataset import get_transforms
 from utils.gradcam import GradCAM, overlay_heatmap_on_image
 
+# Load API URL from Environment Variable, fallback to local URL
+API_URL = os.getenv("API_URL", "http://localhost:8000")
+
 # Page configuration
 st.set_page_config(
     page_title="Industrial Defect Inspection System",
@@ -105,9 +108,9 @@ elif page == "Dataset Analysis":
     
     col1, col2 = st.columns([1, 1])
     
-    dist_path = "outputs/class_distribution.png"
-    sample_path = "outputs/sample_images.png"
-    pixel_path = "outputs/pixel_distribution.png"
+    dist_path = os.path.join(config.OUTPUT_DIR, "class_distribution.png")
+    sample_path = os.path.join(config.OUTPUT_DIR, "sample_images.png")
+    pixel_path = os.path.join(config.OUTPUT_DIR, "pixel_distribution.png")
     
     with col1:
         st.subheader("Class Distribution across Splits")
@@ -137,7 +140,7 @@ elif page == "Predict":
     
     col_input, col_pred = st.columns([1, 2])
     
-    example_base_dir = os.path.join("dataset", "split", "test")
+    example_base_dir = os.path.join(config.DATASET_SPLIT_DIR, "test")
     uploaded_image = None
     img_path_for_cam = None
     
@@ -150,7 +153,7 @@ elif page == "Predict":
             uploaded_file = st.file_uploader("Upload Image File", type=["jpg", "jpeg", "png"])
             if uploaded_file is not None:
                 uploaded_image = Image.open(uploaded_file).convert("RGB")
-                temp_path = "outputs/temp_uploaded.jpg"
+                temp_path = os.path.join(config.OUTPUT_DIR, "temp_uploaded.jpg")
                 uploaded_image.save(temp_path)
                 img_path_for_cam = temp_path
         else:
@@ -182,7 +185,7 @@ elif page == "Predict":
                 
                 # Post to FastAPI backend
                 files = {"file": ("image.jpg", img_bytes, "image/jpeg")}
-                response = requests.post(f"http://localhost:8000/predict?model_name={model_choice}", files=files)
+                response = requests.post(f"{API_URL}/predict?model_name={model_choice}", files=files)
                 
                 if response.status_code == 200:
                     res = response.json()
@@ -246,7 +249,7 @@ elif page == "Predict":
                 else:
                     st.error(f"Error from FastAPI backend: {response.status_code}")
             except Exception as e:
-                st.warning("FastAPI backend offline. Start the backend server on port 8000.")
+                st.warning(f"FastAPI backend offline. Please verify that the backend is running at {API_URL}.")
                 st.error(f"Connection Error: {e}")
         else:
             st.info("Upload an image file or choose an example from the sidebar dataset folders.")
@@ -266,7 +269,7 @@ elif page == "Model Comparison":
     st.title("📈 Model Comparison & Benchmark Benchmarks")
     
     st.subheader("Evaluation holdout test statistics:")
-    comp_path = "outputs/model_comparison.txt"
+    comp_path = os.path.join(config.OUTPUT_DIR, "model_comparison.txt")
     if os.path.exists(comp_path):
         with open(comp_path, "r") as f:
             st.code(f.read())

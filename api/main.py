@@ -1,4 +1,9 @@
 import os
+import sys
+
+# Add the project root folder to sys.path so config, models, and utils can be imported
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import io
 import time
 import torch
@@ -36,8 +41,10 @@ def load_models():
         if os.path.exists(path):
             cnn.load_state_dict(torch.load(path, map_location=device))
             print("Loaded Custom CNN weights.")
-        cnn.to(device).eval()
-        models["custom_cnn"] = cnn
+            cnn.to(device).eval()
+            models["custom_cnn"] = cnn
+        else:
+            print(f"Warning: Checkpoint not found at {path}. Custom CNN will not be loaded.")
     except Exception as e:
         print(f"Failed to load Custom CNN: {e}")
         
@@ -48,8 +55,10 @@ def load_models():
         if os.path.exists(path):
             resnet.load_state_dict(torch.load(path, map_location=device))
             print("Loaded ResNet18 weights.")
-        resnet.to(device).eval()
-        models["resnet18"] = resnet
+            resnet.to(device).eval()
+            models["resnet18"] = resnet
+        else:
+            print(f"Warning: Checkpoint not found at {path}. ResNet18 will not be loaded.")
     except Exception as e:
         print(f"Failed to load ResNet18: {e}")
 
@@ -60,8 +69,10 @@ def load_models():
         if os.path.exists(path):
             effnet.load_state_dict(torch.load(path, map_location=device))
             print("Loaded EfficientNet-B0 weights.")
-        effnet.to(device).eval()
-        models["efficientnet_b0"] = effnet
+            effnet.to(device).eval()
+            models["efficientnet_b0"] = effnet
+        else:
+            print(f"Warning: Checkpoint not found at {path}. EfficientNet-B0 will not be loaded.")
     except Exception as e:
         print(f"Failed to load EfficientNet-B0: {e}")
 
@@ -90,6 +101,11 @@ def predict(
         
     try:
         img_bytes = file.file.read()
+        if len(img_bytes) == 0:
+            return JSONResponse(
+                status_code=400,
+                content={"error": "Uploaded image file is empty."}
+            )
         image = Image.open(io.BytesIO(img_bytes)).convert("RGB")
     except Exception as e:
         return JSONResponse(
@@ -123,4 +139,5 @@ def predict(
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

@@ -1,4 +1,9 @@
 import os
+import sys
+
+# Add the project root folder to sys.path so config can be imported
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import argparse
 import time
 import torch
