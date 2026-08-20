@@ -61,6 +61,7 @@ def get_transforms(split):
     
     if split == "train":
         return transforms.Compose([
+            transforms.Grayscale(num_output_channels=3),
             transforms.Resize(config.IMAGE_SIZE),
             transforms.RandomRotation(config.ROTATE_DEGREES),
             transforms.RandomHorizontalFlip(p=config.FLIP_PROB),
@@ -74,6 +75,7 @@ def get_transforms(split):
     else:
         # Validation/Test splits use deterministic preprocessing
         return transforms.Compose([
+            transforms.Grayscale(num_output_channels=3),
             transforms.Resize(config.IMAGE_SIZE),
             transforms.ToTensor(),
             normalize
